@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jakub Krawczyk - Portfolio w budowie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #00ff00;
+            --secondary-color: #9400D3;
+            --background-color: #121212;
+            --text-color: #e0e0e0;
+            --question-mark-size: 120px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .container.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .question-mark {
+            font-size: var(--question-mark-size);
+            color: var(--primary-color);
+            text-shadow: 0 0 15px var(--primary-color);
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .question-mark.active {
+            animation: pulsate 3s infinite;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--primary-color);
+            opacity: 0;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            opacity: 0;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+        }
+
+        .social-links a {
+            color: var(--text-color);
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .contact-form {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            max-width: 500px;
+            margin: 0 auto;
+            opacity: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        button:hover {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .success-message {
+            color: var(--primary-color);
+            margin-top: 15px;
+            display: none;
+        }
+
+        @keyframes pulsate {
+            0% { transform: scale(0.9); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.3; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .rotating-bg {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, transparent 50%, var(--background-color) 70%),
+            linear-gradient(45deg, transparent 49.5%, var(--secondary-color) 49.5%, var(--secondary-color) 50.5%, transparent 50.5%),
+            linear-gradient(135deg, transparent 49.5%, var(--secondary-color) 49.5%, var(--secondary-color) 50.5%, transparent 50.5%);
+            background-size: 100% 100%, 60px 60px, 60px 60px;
+            animation: rotate 60s linear infinite;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background-color: var(--primary-color);
+            animation: blink 1s infinite;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .question-mark {
+                font-size: calc(var(--question-mark-size) * 0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="rotating-bg"></div>
+<div id="particles-js"></div>
+
+<div class="container">
+    <div class="question-mark">?</div>
+    <h1>Jakub Krawczyk</h1>
+    <p>Portfolio w budowie... <span class="terminal-cursor"></span></p>
+
+    <div class="social-links">
+        <a href="https://github.com/" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://instagram.com/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <div class="contact-form">
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="name">Twoje imię</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Twój email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Wiadomość</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit">Wyślij wiadomość</button>
+        </form>
+        <div class="success-message" id="successMessage">
+            Wiadomość wysłana! Odezwę się najszybciej jak to możliwe.
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+    // Inicjalizacja particles.js
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof particlesJS !== 'undefined') {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: ['#00ff00', '#9400D3'] },
+                    shape: { type: 'circle' },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#00ff00',
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: 'none',
+                        random: true,
+                        straight: false,
+                        out_mode: 'out'
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: { enable: true, mode: 'grab' },
+                        onclick: { enable: true, mode: 'push' }
+                    }
+                }
+            });
+        } else {
+            console.error('particlesJS nie został załadowany');
+        }
+
+        // Animacje
+        setTimeout(() => {
+            document.querySelector('.container').classList.add('active');
+
+            const elements = [
+                { el: document.querySelector('.question-mark'), animation: 'scaleIn' },
+                { el: document.querySelector('h1'), animation: 'fadeIn' },
+                { el: document.querySelector('p'), animation: 'fadeIn' },
+                { el: document.querySelector('.social-links'), animation: 'fadeIn' },
+                { el: document.querySelector('.contact-form'), animation: 'fadeIn' }
+            ];
+
+            elements.forEach((item, index) => {
+                setTimeout(() => {
+                    item.el.style.animation = `${item.animation} 1s forwards`;
+                    item.el.style.opacity = '1';
+                    if (item.el.classList.contains('question-mark')) {
+                        item.el.classList.add('active');
+                    }
+                }, 300 + (index * 300));
+            });
+
+            // Efekt pisania
+            const typeWriter = () => {
+                const text = "Portfolio w budowie...";
+                const pElement = document.querySelector('p');
+                let i = 0;
+
+                pElement.innerHTML = '';
+
+                const type = () => {
+                    if (i < text.length) {
+                        pElement.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(type, 100);
+                    } else {
+                        pElement.innerHTML += '<span class="terminal-cursor"></span>';
+                    }
+                };
+                type();
+            };
+            setTimeout(typeWriter, 2000);
+
+            // Losowe znaki zapytania
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    const q = document.createElement('div');
+                    q.textContent = '?';
+                    q.style.cssText = `
+                            position: absolute;
+                            color: rgba(0, 255, 0, 0.2);
+                            font-size: ${Math.random() * 30 + 10}px;
+                            left: ${Math.random() * 100}vw;
+                            top: ${Math.random() * 100}vh;
+                            z-index: 1;
+                            animation: fadeOut 3s forwards;
+                        `;
+                    document.body.appendChild(q);
+                    setTimeout(() => q.remove(), 3000);
+                }
+            }, 500);
+
+            // Obsługa formularza
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                this.style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+            });
+        }, 100);
+    });
+</script>
+</body>
+</html>
